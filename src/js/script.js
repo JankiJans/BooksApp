@@ -20,39 +20,43 @@ function render() { //funkcja renderująca książki na stronie
 }
 render();
 
-/* DODOWANIE KSIĄŻEJ DO ULUBIONYCH */
+/* DODOWANIE KSIĄŻEJ DO ULUBIONYCH I USUWANIE */
 
 //tablica z ulubionymi książkami
 
 const favoriteBooks = [];
 
-function initActions () {
+//zmień fukcnje initActions tak by używała event.target zamiast this
 
-  const booksImage = document.querySelectorAll('.book__image'); 
+function initActions() {
+
+  const booksImage = document.querySelectorAll('.book__image');
   
+  for (let image of booksImage) {
+  
+    image.addEventListener('dblclick', function(event) {
+    event.preventDefault(); 
 
-  for(let image of booksImage){ //przechodzimy po każdym obrazku z listy książek
-
-    image.addEventListener('dblclick', function(event){ //dodajemy event podwójnego kliknięcia
-      event.preventDefault(); 
-
-        const bookId = image.getAttribute('data-id'); //pobieramy id książki
-
-        if(!favoriteBooks.includes(bookId)){ //sprawdzamy czy w tablicy nie ma już takiego id
-          favoriteBooks.push(bookId); //jeśli nie ma to dodajemy
-          image.classList.add('favorite'); //dodajemy klasę favorite do obrazka
-        } else {
-          favoriteBooks.splice(favoriteBooks.indexOf(bookId), 1); //jeśli jest to usuwamy z tablicy
-          image.classList.remove('favorite'); //usuwamy klasę favorite z obrazka
-        } 
+      event.target.classList.toggle('favorite');
+  
+      const bookId = event.target.getAttribute('data-id');
+  
+      if(!favoriteBooks.includes(bookId)){ //sprawdzamy czy w tablicy nie ma już takiego id
+        favoriteBooks.push(bookId); //jeśli nie ma to dodajemy
+        image.classList.add('favorite'); //dodajemy klasę favorite do obrazka
+      } else {
+        favoriteBooks.splice(favoriteBooks.indexOf(bookId), 1); //jeśli jest to usuwamy z tablicy
+        image.classList.remove('favorite'); //usuwamy klasę favorite z obrazka
+      } 
+  
     });
-
-    console.log(image);
-
-  } 
+  }
 }
-
+  
 initActions();
+                                                                                                    
+     
+  
 
 
 
