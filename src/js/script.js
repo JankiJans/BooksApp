@@ -32,7 +32,7 @@ function initActions () {
 
   for(let book of booksImage){
 
-    booksImage.addeventListener('dbclick', function(event){ 
+    book.addEventListener('dbclick', function(event){ 
     event.preventDefault();
 
       book.classList.toggle('favorite');
