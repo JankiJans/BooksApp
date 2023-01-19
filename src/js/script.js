@@ -36,20 +36,18 @@ function initActions () {
     image.addEventListener('dbclick', function(event){ 
       event.preventDefault();
 
-      image.classList.toggle('favorite');
+        const bookId = image.getAttribute('data-id');
 
-      const bookId = image.getAttribute('data-id'); 
-
-      if (image.classList.contains('favorite')) { //sprawdzamy czy klasa favorite jest dodana do elementu
-        favoriteBooks.push(bookId);  //dodajemy do tablicy id książki 
-        
-      } else { //jeśli nie ma klasy favorite to usuwamy z tablicy
-        favoriteBooks.splice(favoriteBooks.indexOf(bookId), 1); //usuwanie z tablicy
-      }
-
+        if(!favoriteBooks.includes(bookId)){
+          favoriteBooks.push(bookId);
+          bookId.classList.add('favorite');
+        } else {
+          favoriteBooks.splice(favoriteBooks.indexOf(bookId), 1);
+          bookId.classList.remove('favorite');
+        } 
     });
 
-    console.log(favoriteBooks);
+    console.log(image);
 
   } 
 }
