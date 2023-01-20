@@ -11,11 +11,16 @@ const booksList = document.querySelector('.books-list');
 function render() { //funkcja renderująca książki na stronie
 
   for (let book of dataSource.books) { //przechodzimy po każdej książce z tablicy dataSource.books i wyświetlamy je na stronie 
-    const generatedHTML = template(book); //generujemy kod HTML dla każdej książki z tablicy dataSource.books
-    booksList.innerHTML += generatedHTML; //dodajemy kod HTML do listy .books-list 
 
     const ratingBgc = determineRatingBgc(book.rating); //przypisujemy do zmiennej ratingBgc klasę zależną od oceny książki
     book.ratingWidth = book.rating * 10; //przypisujemy do zmiennej ratingWidth szerokość paska zależną od oceny książki
+    book.ratingBgc = ratingBgc; //przypisujemy do zmiennej ratingBgc klasę zależną od oceny książki
+
+
+    const generatedHTML = template(book); //generujemy kod HTML dla każdej książki z tablicy dataSource.books
+    booksList.innerHTML += generatedHTML; //dodajemy kod HTML do listy .books-list 
+
+    
     
   }  
 }
@@ -73,7 +78,7 @@ function initActions() {
         
       }
 
-      filterBooks();
+      filterBooks(filters);
 
     }
 
@@ -89,26 +94,32 @@ initActions();
 
 /* KLASA hidden dla zaznaczonych książek */
 
-function filterBooks() {
+function filterBooks(filters) {
 
-  for (const images of dataSource.books) {
+  for (const book of dataSource.books) {
 
-    const bookImage = document.querySelector('.book__image[data-id="' + images.id + '"]');
+    const bookImage = document.querySelector('.book__image[data-id="' + book.id + '"]');
 
     let shouldBeHidden = false;
 
     for (const filter of filters) {
 
-      if(!images.details[filter]) {
+      if(!book.details[filter]) {
 
         shouldBeHidden = true;
         break;
         
       } else {
-        
+        shouldBeHidden = false;
+      }
+    }
+      if(shouldBeHidden) {
+        bookImage.classList.add('hidden');
+      } else {    
+        bookImage.classList.remove('hidden');
       }
 
-    }
+    
   }
 }
 
