@@ -43,7 +43,7 @@ function initActions() {
     image.addEventListener('dblclick', function(event) {
       event.preventDefault(); 
 
-      event.target.classList.toggle('favorite');
+      event.target.classList.toggle('favorite'); 
   
       const bookId = event.target.getAttribute('data-id');
   
@@ -82,7 +82,7 @@ function initActions() {
 
     }
 
-    console.log(checkbox.value);
+    console.log(checkbox.value); 
     console.log(checkbox.checked);
 
   });
@@ -94,30 +94,31 @@ initActions();
 
 /* KLASA hidden dla zaznaczonych książek */
 
-function filterBooks(filters) {
+function filterBooks(filters) { //funkcja filtrująca książki po zaznaczonych checkboxach
 
-  for (const book of dataSource.books) {
+  for (const book of dataSource.books) { //przechodzimy po każdej książce z tablicy dataSource.books 
 
-    const bookImage = document.querySelector('.book__image[data-id="' + book.id + '"]');
+    const bookImage = document.querySelector('.book__image[data-id="' + book.id + '"]'); //przypisujemy do zmiennej bookImage obrazek z danym id  
 
     let shouldBeHidden = false;
 
-    for (const filter of filters) {
+    for (const filter of filters) { //przechodzimy po każdym elemencie z tablicy filters
 
-      if(!book.details[filter]) {
+      if(!book.details[filter]) { //sprawdzamy czy danej książce nie odpowiada dany checkbox 
 
-        shouldBeHidden = true;
+        shouldBeHidden = true; 
         break;
         
-      } else {
+      } else { 
         shouldBeHidden = false;
       }
     }
-      if(shouldBeHidden) {
-        bookImage.classList.add('hidden');
-      } else {    
-        bookImage.classList.remove('hidden');
-      }
+
+    if(shouldBeHidden) { 
+      bookImage.classList.add('hidden'); 
+    } else {    
+      bookImage.classList.remove('hidden'); 
+    }
 
     
   }
@@ -131,7 +132,7 @@ function determineRatingBgc(rating) {
   let background = '';
 
   if(rating < 6) {
-    background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+    background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)'; 
   } else if(rating > 6 && rating <= 8) {
     background = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
   } else if(rating > 8 && rating <= 9) {
