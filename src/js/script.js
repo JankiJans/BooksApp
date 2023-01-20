@@ -3,10 +3,9 @@
 //Przygotuj referencję do szablonu oraz listy .books-list.
 
 const template = Handlebars.compile(document.querySelector('#template-book').innerHTML); 
-console.log(template);
 
 const booksList = document.querySelector('.books-list'); 
-console.log(booksList);
+
 
 //Dodaj funckję render, wewnątrz niej przejdź po każdym elemencie z dataSource.books
 function render() { //funkcja renderująca książki na stronie
@@ -15,7 +14,9 @@ function render() { //funkcja renderująca książki na stronie
     const generatedHTML = template(book); //generujemy kod HTML dla każdej książki z tablicy dataSource.books
     booksList.innerHTML += generatedHTML; //dodajemy kod HTML do listy .books-list 
 
-    console.log(generatedHTML);
+    const ratingBgc = determineRatingBgc(book.rating); //przypisujemy do zmiennej ratingBgc klasę zależną od oceny książki
+    book.ratingWidth = book.rating * 10; //przypisujemy do zmiennej ratingWidth szerokość paska zależną od oceny książki
+    
   }  
 }
 render();
@@ -35,7 +36,7 @@ function initActions() {
   for (let image of booksImage) {
   
     image.addEventListener('dblclick', function(event) {
-    event.preventDefault(); 
+      event.preventDefault(); 
 
       event.target.classList.toggle('favorite');
   
@@ -51,9 +52,100 @@ function initActions() {
   
     });
   }
+
+  /* FILTROWANIE KSIĄŻEK */
+
+  const filters = [];
+
+  const filterList = document.querySelector('.filters');
+
+  filterList.addEventListener('click', function(event) {
+
+    const checkbox = event.target; //przypisujemy kliknięty element do zmiennej checkbox
+  
+    if(checkbox.tagName == 'INPUT' && checkbox.type == 'checkbox' && checkbox.name == 'filter') { //sprawdzamy, czy kliknięty element, faktycznie jest naszym checkboxem
+
+      if(checkbox.checked) { //sprawdzamy czy checkbox jest zaznaczony 
+        filters.push(checkbox.value); //jeśli tak to dodajemy jego wartość do tablicy
+
+      } else { //jeśli nie to usuwamy jego wartość z tablicy
+        filters.splice(filters.indexOf(checkbox.value), 1);
+        
+      }
+
+      filterBooks();
+
+    }
+
+    console.log(checkbox.value);
+    console.log(checkbox.checked);
+
+  });
+  
+
 }
   
 initActions();
+
+/* KLASA hidden dla zaznaczonych książek */
+
+function filterBooks() {
+
+  for (const images of dataSource.books) {
+
+    const bookImage = document.querySelector('.book__image[data-id="' + images.id + '"]');
+
+    let shouldBeHidden = false;
+
+    for (const filter of filters) {
+
+      if(!images.details[filter]) {
+
+        shouldBeHidden = true;
+        break;
+        
+      } else {
+        
+      }
+
+    }
+  }
+}
+
+
+/* Kolory dla ratingów */
+
+function determineRatingBgc(rating) {
+
+  let background = '';
+
+  if(rating < 6) {
+    background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+  } else if(rating > 6 && rating <= 8) {
+    background = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
+  } else if(rating > 8 && rating <= 9) {
+    background = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+  } else if(rating > 9) {
+    background = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+  }
+
+  return background;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                                                                     
      
   
