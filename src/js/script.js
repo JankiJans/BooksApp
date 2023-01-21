@@ -1,33 +1,32 @@
-
 const template = Handlebars.compile(document.querySelector('#template-book').innerHTML); 
-const booksList = document.querySelector('.books-list');
 
 class BooksList {
     
     constructor(id){
       const thisBookList = this;
 
-      thisBook.id = id;
+      thisBookList.id = id;
 
       thisBookList.render();
       thisBookList.getElements();
       thisBookList.initActions();
-      thisBook.determineRatingBgc();
+      thisBookList.determineRatingBgc();
     }
 
     /* WYŚWIETLANIE KSIĄŻEK NA STORONIE */  
 
     render() { //funkcja renderująca książki na stronie
       const thisBookList = this;
+      const bookList = document.querySelector('.books-list');
       
       for (let book of dataSource.books) { //przechodzimy po każdej książce z tablicy dataSource.books i wyświetlamy je na stronie 
         
-        const ratingBgc = determineRatingBgc(book.rating); //przypisujemy do zmiennej ratingBgc klasę zależną od oceny książki
+        const ratingBgc = thisBookList.determineRatingBgc(book.rating); //przypisujemy do zmiennej ratingBgc klasę zależną od oceny książki
         book.ratingWidth = book.rating * 10; //przypisujemy do zmiennej ratingWidth szerokość paska zależną od oceny książki
         book.ratingBgc = ratingBgc; //przypisujemy do zmiennej ratingBgc klasę zależną od oceny książki
     
         const generatedHTML = template(book); //generujemy kod HTML dla każdej książki z tablicy dataSource.books
-        thisBookList.booksList.innerHTML += generatedHTML; //dodajemy kod HTML do listy .books-list 
+        bookList.innerHTML += generatedHTML; //dodajemy kod HTML do listy .books-list 
   
       }  
     }
@@ -36,14 +35,17 @@ class BooksList {
         const thisBookList = this;
 
         thisBookList.bookList = document.querySelector('.books-list');
-        thisBookList.filters = document.querySelector('.filters');
+        thisBookList.filterList = document.querySelector('.filters');
         thisBookList.booksImage = document.querySelectorAll('.book__image');
     }
 
     initActions(){
       const thisBookList = this;
+
+      const favoriteBooks = [];
+      const filters = [];
   
-      for (let image of booksImage) {
+      for (let image of thisBookList.booksImage) {
         
         image.addEventListener('dblclick', function(event) {
           event.preventDefault(); 
@@ -65,11 +67,7 @@ class BooksList {
       
         /* FILTROWANIE KSIĄŻEK */
       
-        const filters = [];
-      
-        const filterList = document.querySelector('.filters');
-      
-        filterList.addEventListener('click', function(event) {
+        thisBookList.filterList.addEventListener('click', function(event) {
       
           const checkbox = event.target; //przypisujemy kliknięty element do zmiennej checkbox
         
@@ -143,6 +141,7 @@ class BooksList {
       return background;
     }
 }
-const app = new BooksList();
+
+new BooksList();
 
 
